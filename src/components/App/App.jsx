@@ -8,7 +8,6 @@ import UserData from "../../ContactData/ContactData.json"
 function App() {
     const [contacts, setContacts] = useState(()=> {
         const storedContacts = JSON.parse(localStorage.getItem('contacts'))
-        console.log('Contacts loaded from localStorage:', storedContacts);
         return storedContacts || UserData
     });
     const [filter, setFilter] = useState('');
@@ -22,7 +21,6 @@ function App() {
     // }, []);
     useEffect(() => {
         localStorage.setItem('contacts', JSON.stringify(contacts))
-        console.log('Contacts saved to localStorage:', contacts);
     }, [contacts]);
     const handleFilterChange = (event) => {
         setFilter(event.target.value);

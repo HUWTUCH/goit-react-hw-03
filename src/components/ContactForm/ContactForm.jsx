@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import css from './ContactForm.module.css';
 import { useId } from "react";
 import { nanoid } from "nanoid/non-secure";
@@ -15,9 +15,9 @@ const ContactForm = ({ onAdd }) => {
 
     const handleSubmitForm = (values, actions) => {
         const newContact = {
+            id: nanoid(),
             name: values.username,
-            number: values.telephoneNumber,
-            id: nanoid()
+            number: values.telephoneNumber
         };
         onAdd(newContact);
         actions.resetForm();
@@ -40,6 +40,7 @@ const ContactForm = ({ onAdd }) => {
                         name="username"
                         id={nameInput}
                     />
+                    <ErrorMessage name="username" as='span' />
                 </div>
                 <div className={css.input}>
                     <label>Number</label>
@@ -48,6 +49,7 @@ const ContactForm = ({ onAdd }) => {
                         name="telephoneNumber"
                         id={numberInput}
                     />
+                    <ErrorMessage name="telephoneNumber" as='span' />
                 </div>
                 <button type="submit">Add contact</button>
             </Form>

@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import {useEffect, useState} from 'react'
 // import './App.css'
 import ContactForm from "../ContactForm/ContactForm.jsx";
 import SearchBox from "../SearchBox/SearchBox.jsx";
@@ -6,9 +6,24 @@ import ContactList from "../ContactList/ContactList.jsx";
 import UserData from "../../ContactData/ContactData.json"
 
 function App() {
-    const [contacts, setContacts] = useState(UserData);
+    const [contacts, setContacts] = useState(()=> {
+        const storedContacts = JSON.parse(localStorage.getItem('contacts'))
+        console.log('Contacts loaded from localStorage:', storedContacts);
+        return storedContacts || UserData
+    });
     const [filter, setFilter] = useState('');
 
+    // useEffect(() => {
+    //     const storedContacts = JSON.parse(localStorage.getItem('contacts'))
+    //     if (storedContacts) {
+    //         setContacts(storedContacts)
+    //     }
+    //     console.log('Contacts loaded from localStorage:', storedContacts);
+    // }, []);
+    useEffect(() => {
+        localStorage.setItem('contacts', JSON.stringify(contacts))
+        console.log('Contacts saved to localStorage:', contacts);
+    }, [contacts]);
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
     };
